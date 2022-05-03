@@ -13,6 +13,7 @@ main_menu = """
 Дхаммапада: /dhammapada_sutta
 Тхерагатха: /theragatha_sutta
 Тхеригатха: /therigatha_sutta
+Итивуттака: /itivuttaka_sutta
 Удана: /udana_sutta
 
 Инфо: /about_us"""
@@ -58,6 +59,11 @@ def dhammapada_sutta_func(message):
     print_text = get_text("dhammapada.txt", 'dhammapada_sutta')
     bot.send_message(message.chat.id, print_text, parse_mode="HTML")
 
+@bot.message_handler(commands=['itivuttaka_sutta'])
+def itivuttaka_sutta_func(message):
+    print_text = get_text("itivuttaka.txt", 'itivuttaka_sutta')
+    bot.send_message(message.chat.id, print_text, parse_mode="HTML")
+
 @bot.message_handler(commands=['udana_sutta'])
 def udana_sutta_func(message):
     print_text = get_text("udana.txt", 'udana_sutta')
@@ -75,7 +81,7 @@ def udana_sutta_func(message):
 
 @bot.message_handler(commands=['about_us'])
 def about_us_func(message):
-    print_text = 'Этот бот создан для некомерческого использования, все материалы берутся с сайта theravada.ru.\n' \
+    print_text = 'Этот бот создан для некоммерческого использования, все материалы берутся с сайта theravada.ru.\n' \
                  'Наша <a href="https://theravada.ru/blessings.htm">община</a> существует на пожертвования, вы можете сделать дану на карту сбербанка 4276 5500 2002 5576.\n\n' \
                  'По вопросам и предложениям пишите @Alexandr_Cherkaev и @Max_Kotebus'
     bot.send_message(message.chat.id, print_text, parse_mode="HTML")
