@@ -1,5 +1,5 @@
 import telebot
-from config import mainconfig, token, about_text, main_menu
+from config import mainconfig, main_menu, about_text, token, delimiter
 ########################################################
 
 bot = telebot.TeleBot(token)
@@ -19,16 +19,14 @@ def main_menu_func(message):
 @bot.message_handler(commands=['all_sutta'])
 def all_sutta_func(message):
     print_text = get_text("all_suttas.txt", 'all_sutta')
-    limit = 4000
+    limit = 4050
     if len(print_text) >= limit:
-        while print_text[limit] != '.':
-            limit += 1
-        else:
-            limit += 1
-            bot.send_message(message.chat.id, print_text[:limit], parse_mode="HTML")
-            bot.send_message(message.chat.id, print_text[limit:], parse_mode="HTML")
+        index = delimiter(print_text, limit)
+        for x in range(0, len(index) - 1):
+            bot.send_message(message.chat.id, print_text[index[x]:index[x + 1]], parse_mode="HTML")
+        bot.send_message(message.chat.id, print_text[index[-1]:], parse_mode="HTML")
     else:
-        bot.send_message(message.chat.id, print_text, parse_mode="HTML")
+        bot.send_message(message.chat.id, print_text, parse_mode='HTML')
 
 @bot.message_handler(commands=['theragatha_sutta'])
 def theragatha_sutta_func(message):
@@ -53,17 +51,16 @@ def itivuttaka_sutta_func(message):
 @bot.message_handler(commands=['udana_sutta'])
 def udana_sutta_func(message):
     print_text = get_text("udana.txt", 'udana_sutta')
-    limit = 4000
+    limit = 4050
     if len(print_text) >= limit:
-        while print_text[limit] != '.':
-            limit += 1
-        else:
-            limit +=1
-            bot.send_message(message.chat.id, print_text[:limit], parse_mode="HTML")
-            bot.send_message(message.chat.id, print_text[limit:], parse_mode="HTML")
+        com_index = print_text.index("<u>")
+        index = delimiter(print_text, limit)
+        for x in range(0,len(index)-1):
+            bot.send_message(message.chat.id, print_text[index[x]:index[x+1]], parse_mode="HTML")
+        bot.send_message(message.chat.id, print_text[index[-1]:com_index], parse_mode="HTML")
+        bot.send_message(message.chat.id, print_text[com_index:], parse_mode="HTML")
     else:
-        bot.send_message(message.chat.id, print_text, parse_mode="HTML")
-
+        bot.send_message(message.chat.id, print_text, parse_mode='HTML')
 
 @bot.message_handler(commands=['about_us'])
 def about_us_func(message):
