@@ -19,10 +19,11 @@ python3 Pali_Bot.py
 
 ## TODO
 - Serialize data to JSON or YAML
-- Make the bot resident
+- ~~Make the bot resident~~
 - Implement setup.py
-- Get token from environment variable
+- ~~Get token from environment variable~~
 - Move `*.txt` to `data/`
+- Bot menu
 - Suggestion: delete an `.idea/` dir
 - Suggestion: delete `##########` comments
 - Suggestion: apply some permissive license

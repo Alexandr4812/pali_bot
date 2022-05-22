@@ -1,22 +1,25 @@
+import logging
 import os
 import random
 
 from typing import Dict
 
+import telebot
+
 CACHE: Dict[str, str] = {}
 
 
 def mainconfig(txt_file):
-    result = CACHE.get(txt_file)
-    if result is not None:
-        return result
     with open(txt_file, 'r', encoding='cp1251') as f:
-        contents = f.read()
-        text_split = contents.split('___separator___')
-        sn = random.randint(0, len(text_split) - 1)
-        result = text_split[sn]
-        CACHE[txt_file] = result
-        return result
+        contents = CACHE.get(txt_file)
+        if contents is None:
+            contents = f.read()
+            CACHE[txt_file] = contents
+
+    text_split = contents.split('___separator___')
+    sn = random.randint(0, len(text_split) - 1)
+    result = text_split[sn]
+    return result
 
 
 def delimiter(print_text, limit):
@@ -51,4 +54,8 @@ about_text = (
     '\n\n'
     'По вопросам и предложениям пишите @Alexandr_Cherkaev и @Max_Kotebus')
 
+log_level = logging.WARNING
+
 ######################################################################
+
+telebot.logger.setLevel(log_level)
