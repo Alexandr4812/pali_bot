@@ -1,39 +1,10 @@
 import logging
 import os
-import random
 
-from typing import Dict
-
-import telebot
-
-CACHE: Dict[str, str] = {}
-
-
-def mainconfig(txt_file):
-    with open(txt_file, 'r', encoding='cp1251') as f:
-        contents = CACHE.get(txt_file)
-        if contents is None:
-            contents = f.read()
-            CACHE[txt_file] = contents
-
-    text_split = contents.split('___separator___')
-    sn = random.randint(0, len(text_split) - 1)
-    result = text_split[sn]
-    return result
-
-
-def delimiter(print_text, limit):
-    index = []
-    сom_index = print_text.index('<u>')
-    for x in range(0, сom_index, limit):
-        i = print_text.index(" ", x, limit + x)
-        index.append(i)
-    return index
-
-
-###################################################################
+# Telegram bot token
 token = os.environ.get('PALI_BOT_TOKEN', default='5151139838:AAF014XgtqS0_OgmzJNP5yEJ-gSWUUFw9mg')
 
+# Greeting text
 main_menu = """
 Выберите раздел
 
@@ -46,6 +17,7 @@ main_menu = """
 
 Инфо: /about_us"""
 
+# Info text
 about_text = (
     'Этот бот создан для некоммерческого использования, все материалы взяты с сайта theravada.ru.'
     '\n\n'
@@ -55,7 +27,3 @@ about_text = (
     'По вопросам и предложениям пишите @Alexandr_Cherkaev и @Max_Kotebus')
 
 log_level = logging.WARNING
-
-######################################################################
-
-telebot.logger.setLevel(log_level)

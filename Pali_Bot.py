@@ -1,8 +1,36 @@
-import telebot
-from config import mainconfig, main_menu, about_text, token, delimiter
-########################################################
+import random
 
-bot = telebot.TeleBot(token)
+from typing import Dict
+
+import telebot
+import config
+
+CACHE: Dict[str, str] = {}
+telebot.logger.setLevel(config.log_level)
+
+bot = telebot.TeleBot(config.token)
+
+
+def mainconfig(txt_file):
+    with open(txt_file, 'r', encoding='cp1251') as f:
+        contents = CACHE.get(txt_file)
+        if contents is None:
+            contents = f.read()
+            CACHE[txt_file] = contents
+
+    text_split = contents.split('___separator___')
+    sn = random.randint(0, len(text_split) - 1)
+    result = text_split[sn]
+    return result
+
+
+def delimiter(print_text, limit):
+    index = []
+    сom_index = print_text.index('<u>')
+    for x in range(0, сom_index, limit):
+        i = print_text.index(" ", x, limit + x)
+        index.append(i)
+    return index
 
 
 def get_text(sitemap, command):
@@ -16,7 +44,7 @@ def get_text(sitemap, command):
 
 @bot.message_handler(commands=['start'])
 def main_menu_func(message):
-    bot.send_message(message.chat.id, main_menu)
+    bot.send_message(message.chat.id, config.main_menu)
 
 
 @bot.message_handler(commands=['all_sutta'])
@@ -73,7 +101,7 @@ def udana_sutta_func(message):
 
 @bot.message_handler(commands=['about_us'])
 def about_us_func(message):
-    bot.send_message(message.chat.id, about_text, parse_mode="HTML")
+    bot.send_message(message.chat.id, config.about_text, parse_mode="HTML")
 
 
 bot.polling(none_stop=True)

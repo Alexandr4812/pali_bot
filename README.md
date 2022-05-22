@@ -24,8 +24,9 @@ python3 Pali_Bot.py
 - ~~Get token from environment variable~~
 - Move `*.txt` to `data/`
 - Bot menu
+- Make class
 - Suggestion: delete an `.idea/` dir
-- Suggestion: delete `##########` comments
+- ~~Suggestion: delete `##########` comments~~
 - Suggestion: apply some permissive license
 - Suggestion: consistent name: either `canon_bot` or `pali_bot`
 - Suggestion: consistent snake case: Pali_Bot.py -> pali_bot.py
