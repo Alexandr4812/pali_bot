@@ -16,7 +16,7 @@ def get_text(sitemap, command):
 
 @bot.message_handler(commands=['start'])
 def main_menu_func(message):
-    bot.send_message(message.chat.id, main_menu) \
+    bot.send_message(message.chat.id, main_menu)
 
 
 @bot.message_handler(commands=['all_sutta'])
@@ -63,8 +63,8 @@ def udana_sutta_func(message):
     if len(print_text) >= limit:
         com_index = print_text.index("<u>")
         index = delimiter(print_text, limit)
-        for x in range(0,len(index)-1):
-            bot.send_message(message.chat.id, print_text[index[x]:index[x+1]], parse_mode="HTML")
+        for x in range(len(index) - 1):
+            bot.send_message(message.chat.id, print_text[index[x]:index[x + 1]], parse_mode="HTML")
         bot.send_message(message.chat.id, print_text[index[-1]:com_index], parse_mode="HTML")
         bot.send_message(message.chat.id, print_text[com_index:], parse_mode="HTML")
     else:

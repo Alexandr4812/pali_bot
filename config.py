@@ -1,12 +1,21 @@
 import random
 
+from typing import Dict
+
+
+CACHE: Dict[str, str] = {}
+
 
 def mainconfig(txt_file):
-    with open(txt_file, "r") as f:
+    result = CACHE.get(txt_file)
+    if result is not None:
+        return result
+    with open(txt_file, 'r', encoding='cp1251') as f:
         contents = f.read()
         text_split = contents.split('___separator___')
         sn = random.randint(0, len(text_split) - 1)
         result = text_split[sn]
+        CACHE[txt_file] = result
         return result
 
 
