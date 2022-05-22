@@ -1,7 +1,7 @@
+import os
 import random
 
 from typing import Dict
-
 
 CACHE: Dict[str, str] = {}
 
@@ -29,7 +29,7 @@ def delimiter(print_text, limit):
 
 
 ###################################################################
-token = '5151139838:AAF014XgtqS0_OgmzJNP5yEJ-gSWUUFw9mg'
+token = os.environ.get('PALI_BOT_TOKEN', default='5151139838:AAF014XgtqS0_OgmzJNP5yEJ-gSWUUFw9mg')
 
 main_menu = """
 Выберите раздел
