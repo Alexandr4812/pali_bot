@@ -29,4 +29,4 @@ python3 pali_bot.py
 - ~~Suggestion: delete `##########` comments~~
 - Suggestion: apply some permissive license
 - ~~Suggestion: consistent name: either `canon_bot` or `pali_bot`.~~
-- Suggestion: consistent snake case: Pali_Bot.py -> pali_bot.py
+- ~~Suggestion: consistent snake case: Pali_Bot.py -> pali_bot.py~~
