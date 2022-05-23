@@ -1,8 +1,37 @@
-import telebot
-from config import mainconfig, main_menu, about_text, token, delimiter
-########################################################
+import random
 
-bot = telebot.TeleBot(token)
+from typing import Dict
+
+import telebot
+import config
+
+CACHE: Dict[str, str] = {}
+telebot.logger.setLevel(config.log_level)
+
+bot = telebot.TeleBot(config.token)
+
+
+def mainconfig(txt_file):
+    with open(txt_file, 'r', encoding='cp1251') as f:
+        contents = CACHE.get(txt_file)
+        if contents is None:
+            contents = f.read()
+            CACHE[txt_file] = contents
+
+    text_split = contents.split('___separator___')
+    sn = random.randint(0, len(text_split) - 1)
+    result = text_split[sn]
+    return result
+
+
+def delimiter(print_text, limit):
+    index = []
+    сom_index = print_text.index('<u>')
+    for x in range(0, сom_index, limit):
+        i = print_text.index(" ", x, limit + x)
+        index.append(i)
+    return index
+
 
 def get_text(sitemap, command):
     try:
@@ -12,9 +41,11 @@ def get_text(sitemap, command):
 
     return print_text + '\n\nСледующая сутта:  /' + command
 
+
 @bot.message_handler(commands=['start'])
 def main_menu_func(message):
-    bot.send_message(message.chat.id, main_menu) \
+    bot.send_message(message.chat.id, config.main_menu)
+
 
 @bot.message_handler(commands=['all_sutta'])
 def all_sutta_func(message):
@@ -28,25 +59,30 @@ def all_sutta_func(message):
     else:
         bot.send_message(message.chat.id, print_text, parse_mode='HTML')
 
+
 @bot.message_handler(commands=['theragatha_sutta'])
 def theragatha_sutta_func(message):
     print_text = get_text("theragatha.txt", 'theragatha_sutta')
     bot.send_message(message.chat.id, print_text, parse_mode="HTML")
+
 
 @bot.message_handler(commands=['therigatha_sutta'])
 def therigatha_sutta_func(message):
     print_text = get_text("therigatha.txt", 'therigatha_sutta')
     bot.send_message(message.chat.id, print_text, parse_mode="HTML")
 
+
 @bot.message_handler(commands=['dhammapada_sutta'])
 def dhammapada_sutta_func(message):
     print_text = get_text("dhammapada.txt", 'dhammapada_sutta')
     bot.send_message(message.chat.id, print_text, parse_mode="HTML")
 
+
 @bot.message_handler(commands=['itivuttaka_sutta'])
 def itivuttaka_sutta_func(message):
     print_text = get_text("itivuttaka.txt", 'itivuttaka_sutta')
     bot.send_message(message.chat.id, print_text, parse_mode="HTML")
+
 
 @bot.message_handler(commands=['udana_sutta'])
 def udana_sutta_func(message):
@@ -55,16 +91,17 @@ def udana_sutta_func(message):
     if len(print_text) >= limit:
         com_index = print_text.index("<u>")
         index = delimiter(print_text, limit)
-        for x in range(0,len(index)-1):
-            bot.send_message(message.chat.id, print_text[index[x]:index[x+1]], parse_mode="HTML")
+        for x in range(len(index) - 1):
+            bot.send_message(message.chat.id, print_text[index[x]:index[x + 1]], parse_mode="HTML")
         bot.send_message(message.chat.id, print_text[index[-1]:com_index], parse_mode="HTML")
         bot.send_message(message.chat.id, print_text[com_index:], parse_mode="HTML")
     else:
         bot.send_message(message.chat.id, print_text, parse_mode='HTML')
 
+
 @bot.message_handler(commands=['about_us'])
 def about_us_func(message):
-    bot.send_message(message.chat.id, about_text, parse_mode="HTML")
+    bot.send_message(message.chat.id, config.about_text, parse_mode="HTML")
 
 
 bot.polling(none_stop=True)
