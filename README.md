@@ -14,7 +14,7 @@ pip3 install -r requirements.txt
 
 Run with:
 ```bash
-python3 Pali_Bot.py
+python3 pali_bot.py
 ```
 
 ## TODO
@@ -25,8 +25,8 @@ python3 Pali_Bot.py
 - Move `*.txt` to `data/`
 - Bot menu
 - Make class
-- Suggestion: delete an `.idea/` dir
+- ~~Suggestion: delete an `.idea/` dir~~
 - ~~Suggestion: delete `##########` comments~~
 - Suggestion: apply some permissive license
-- Suggestion: consistent name: either `canon_bot` or `pali_bot`
+- ~~Suggestion: consistent name: either `canon_bot` or `pali_bot`.~~
 - Suggestion: consistent snake case: Pali_Bot.py -> pali_bot.py
