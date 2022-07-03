@@ -55,12 +55,13 @@ def main_menu_func(message):
     # TODO reply_markup=markup
 
     commands_list = '\n'.join(config.COMMAND_MAPPING.keys())
-    greeting_text = (
-        '<b>Выберите раздел</b>\n'
-        '\n'
-        f'{commands_list}\n'
-        '\n'
-        'Инфо: /about_us')
+    greeting_text = f'''
+<b>Выберите раздел</b>:
+
+{commands_list}
+
+Инфо: /about_us
+'''
 
     bot.send_message(message.chat.id, greeting_text)
 
@@ -81,6 +82,7 @@ def generic_command(message: telebot.types.Message) -> None:
         bot.send_message(message.chat.id, print_text)
 
 
+# TODO Unify
 @bot.message_handler(commands=['udana_sutta'])
 def udana_sutta_func(message):
     print_text = get_text("udana.txt", 'udana_sutta')

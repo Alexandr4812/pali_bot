@@ -4,6 +4,9 @@ import os
 # Telegram bot token
 token = os.environ.get('PALI_BOT_TOKEN', default='5151139838:AAF014XgtqS0_OgmzJNP5yEJ-gSWUUFw9mg')
 
+# TODO ResourcesDict
+# TODO Tags for message
+
 # Maps commands to files in data/ dir
 COMMAND_MAPPING = {
     'all_sutta': 'all_suttas.txt',
