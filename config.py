@@ -4,18 +4,15 @@ import os
 # Telegram bot token
 token = os.environ.get('PALI_BOT_TOKEN', default='5151139838:AAF014XgtqS0_OgmzJNP5yEJ-gSWUUFw9mg')
 
-# Greeting text
-main_menu = """
-Выберите раздел
-
-Любой: /all_sutta
-Дхаммапада: /dhammapada_sutta
-Тхерагатха: /theragatha_sutta
-Тхеригатха: /therigatha_sutta
-Итивуттака: /itivuttaka_sutta
-Удана: /udana_sutta
-
-Инфо: /about_us"""
+# Maps commands to files in data/ dir
+COMMAND_MAPPING = {
+    'all_sutta': 'all_suttas.txt',
+    'theragatha_sutta': 'theragatha.txt',
+    'therigatha_sutta': 'theragatha.txt',
+    'dhammapada_sutta': 'dhammapada.txt',
+    'itivuttaka_sutta': 'itivuttaka.txt',
+    'udana_sutta': 'udana.txt',
+}
 
 # Info text
 about_text = (
