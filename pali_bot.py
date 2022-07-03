@@ -1,3 +1,4 @@
+import os
 import random
 
 from typing import Dict
@@ -12,7 +13,8 @@ bot = telebot.TeleBot(config.token)
 
 
 def mainconfig(txt_file):
-    with open(txt_file, 'r', encoding='cp1251') as f:
+    file_path = os.path.join('data', txt_file)
+    with open(file_path, 'r', encoding='cp1251') as f:
         contents = CACHE.get(txt_file)
         if contents is None:
             contents = f.read()
@@ -104,4 +106,5 @@ def about_us_func(message):
     bot.send_message(message.chat.id, config.about_text, parse_mode="HTML")
 
 
-bot.polling(none_stop=True)
+if __name__ == '__main__':
+    bot.polling(none_stop=True)
