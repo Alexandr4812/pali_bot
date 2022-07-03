@@ -28,8 +28,8 @@ def mainconfig(txt_file):
 
 def delimiter(print_text, limit):
     index = []
-    сom_index = print_text.index('<u>')
-    for x in range(0, сom_index, limit):
+    com_index = print_text.index('<u>')
+    for x in range(0, com_index, limit):
         i = print_text.index(" ", x, limit + x)
         index.append(i)
     return index
@@ -37,15 +37,17 @@ def delimiter(print_text, limit):
 
 def get_text(sitemap, command):
     try:
-        print_text = mainconfig(sitemap)
-    except Exception as e:
-        print_text = str(e) + "\nОШИБКА ПРОГРАММЫ\nНАЖМИТЕ: /start"
+        text = mainconfig(sitemap)
+    except FileNotFoundError as error:
+        telebot.logger.exception(error, exc_info=error)
+        text = 'Ошибка программы: файл не найден.\nНажмите /start для продолжения'
 
-    return print_text + '\n\nСледующая сутта:  /' + command
+    return text + f'\n\nСледующая сутта: /{command}'
 
 
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['start', 'help'])
 def main_menu_func(message):
+    # TODO reply_markup=markup
     bot.send_message(message.chat.id, config.main_menu)
 
 
