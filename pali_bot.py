@@ -2,6 +2,7 @@ import os
 import random
 
 from typing import Dict
+from typing import List
 
 import telebot
 import config
@@ -11,10 +12,12 @@ telebot.logger.setLevel(config.log_level)
 
 bot = telebot.TeleBot(config.token, parse_mode='HTML')
 
+# Directory of the module
+DIR = os.path.abspath(os.path.dirname(__file__))
 
-def mainconfig(txt_file):
-    # TODO Implement relative
-    file_path = os.path.join('data', txt_file)
+
+def random_sutta(txt_file: str) -> str:
+    file_path = os.path.join(DIR, 'data', txt_file)
     with open(file_path, 'r', encoding='cp1251') as f:
         contents = CACHE.get(txt_file)
         if contents is None:
@@ -27,7 +30,7 @@ def mainconfig(txt_file):
     return result
 
 
-def delimiter(print_text, limit):
+def delimiter(print_text: str, limit: int) -> List:
     index = []
     com_index = print_text.index('<u>')
     for x in range(0, com_index, limit):
@@ -36,10 +39,10 @@ def delimiter(print_text, limit):
     return index
 
 
-def get_text(command):
+def get_text(command: str) -> str:
     try:
         sitemap = config.COMMAND_MAPPING[command].filename
-        text = mainconfig(sitemap) + f'\n\nСледующая сутта: /{command}'
+        text = random_sutta(sitemap) + f'\n\nСледующая сутта: /{command}'
     except (FileNotFoundError, KeyError) as error:
         telebot.logger.exception(error, exc_info=error)
         text = (
@@ -51,13 +54,13 @@ def get_text(command):
 
 
 @bot.message_handler(commands=['start', 'help'])
-def main_menu_func(message):
+def main_menu_func(message) -> None:
     # TODO reply_markup=markup
 
     commands_list = [f'{val.displayname}: /{key}' for key, val in config.COMMAND_MAPPING.items()]
     commands_text = '\n'.join(commands_list)
     greeting_text = f'''
-<b>Случайная сутта</b>:
+<b>Случайная сутта</b>
 
 Получить случайную сутту из раздела:
 
@@ -86,7 +89,7 @@ def generic_command(message: telebot.types.Message) -> None:
 
 
 @bot.message_handler(commands=['about_us'])
-def about_us_func(message):
+def about_us_func(message) -> None:
     bot.send_message(message.chat.id, config.about_text)
 
 
