@@ -1,7 +1,6 @@
 import logging
 import os
 
-from typing import TypedDict
 from typing import List
 
 # Telegram bot token
