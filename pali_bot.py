@@ -57,7 +57,9 @@ def main_menu_func(message):
     commands_list = [f'{val.displayname}: /{key}' for key, val in config.COMMAND_MAPPING.items()]
     commands_text = '\n'.join(commands_list)
     greeting_text = f'''
-<b>Выберите раздел</b>:
+<b>Случайная сутта</b>:
+
+Получить случайную сутту из раздела:
 
 {commands_text}
 

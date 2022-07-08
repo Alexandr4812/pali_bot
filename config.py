@@ -20,7 +20,7 @@ class SectionEntry:
 # Maps commands to files in data/ dir
 COMMAND_MAPPING = {
     'all_sutta': SectionEntry(
-        filename='all_suttas.txt', displayname='Все разделы'),
+        filename='all_suttas.txt', displayname='Любой раздел'),
     'theragatha_sutta': SectionEntry(
         filename='theragatha.txt', displayname='Техрагатха'),
     'therigatha_sutta': SectionEntry(
@@ -40,6 +40,6 @@ about_text = (
     'Наша <a href="https://theravada.ru/blessings.htm">община</a> существует на пожертвования,'
     ' вы можете сделать дану на карту сбербанка 4276 5500 2002 5576.'
     '\n\n'
-    'По вопросам и предложениям пишите @Alexandr_Cherkaev и @Max_Kotebus')
+    'По вопросам и предложениям пишите @Alexandr_Cherkaev, @Max_Kotebus, @bergentroll')
 
 log_level = logging.WARNING

@@ -21,8 +21,8 @@ python3 pali_bot.py
 - Serialize data to JSON or YAML
 - Implement setup.py
 - ~~Move `*.txt` to `data/`~~
-- Bot menu
-- Make class
+- Buttons menu
 - ~~Suggestion: apply some permissive license~~
-- Suggestion: one command `/next` with optional arg
+- Suggestion: rename commands like `/any`, `/theragatha`...
 - Suggestion: automatic tags to easily search messages
+- Suggestion: bold title of a sutta
