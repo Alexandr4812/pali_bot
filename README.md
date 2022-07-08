@@ -25,3 +25,4 @@ python3 pali_bot.py
 - Make class
 - ~~Suggestion: apply some permissive license~~
 - Suggestion: one command `/next` with optional arg
+- Suggestion: automatic tags to easily search messages

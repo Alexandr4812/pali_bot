@@ -1,20 +1,36 @@
 import logging
 import os
 
+from typing import TypedDict
+from typing import List
+
 # Telegram bot token
 token = os.environ.get('PALI_BOT_TOKEN', default='5151139838:AAF014XgtqS0_OgmzJNP5yEJ-gSWUUFw9mg')
 
-# TODO ResourcesDict
-# TODO Tags for message
+
+class SectionEntry:
+    def __init__(self, filename: str, displayname: str, tags: List[str] = None):
+        if tags is None:
+            tags = []
+
+        self.filename = filename
+        self.displayname = displayname
+
 
 # Maps commands to files in data/ dir
 COMMAND_MAPPING = {
-    'all_sutta': 'all_suttas.txt',
-    'theragatha_sutta': 'theragatha.txt',
-    'therigatha_sutta': 'theragatha.txt',
-    'dhammapada_sutta': 'dhammapada.txt',
-    'itivuttaka_sutta': 'itivuttaka.txt',
-    'udana_sutta': 'udana.txt',
+    'all_sutta': SectionEntry(
+        filename='all_suttas.txt', displayname='Все разделы'),
+    'theragatha_sutta': SectionEntry(
+        filename='theragatha.txt', displayname='Техрагатха'),
+    'therigatha_sutta': SectionEntry(
+        filename='therigatha.txt', displayname='Тхеригатха'),
+    'dhammapada_sutta': SectionEntry(
+        filename='dhammapada.txt', displayname='Дхаммапада'),
+    'itivuttaka_sutta': SectionEntry(
+        filename='itivuttaka.txt', displayname='Итивуттака'),
+    'udana_sutta': SectionEntry(
+        filename='udana.txt', displayname='Удана'),
 }
 
 # Info text

@@ -38,7 +38,7 @@ def delimiter(print_text, limit):
 
 def get_text(command):
     try:
-        sitemap = config.COMMAND_MAPPING.get(command)
+        sitemap = config.COMMAND_MAPPING[command].filename
         text = mainconfig(sitemap) + f'\n\nСледующая сутта: /{command}'
     except (FileNotFoundError, KeyError) as error:
         telebot.logger.exception(error, exc_info=error)
@@ -54,11 +54,12 @@ def get_text(command):
 def main_menu_func(message):
     # TODO reply_markup=markup
 
-    commands_list = '\n'.join(config.COMMAND_MAPPING.keys())
+    commands_list = [f'{val.displayname}: /{key}' for key, val in config.COMMAND_MAPPING.items()]
+    commands_text = '\n'.join(commands_list)
     greeting_text = f'''
 <b>Выберите раздел</b>:
 
-{commands_list}
+{commands_text}
 
 Инфо: /about_us
 '''
