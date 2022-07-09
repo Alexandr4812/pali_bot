@@ -3,9 +3,6 @@ import os
 
 from typing import List
 
-# Telegram bot token
-token = os.environ.get('PALI_BOT_TOKEN', default='5151139838:AAF014XgtqS0_OgmzJNP5yEJ-gSWUUFw9mg')
-
 
 class SectionEntry:
     def __init__(self, filename: str, displayname: str, tags: List[str] = None):
@@ -15,6 +12,26 @@ class SectionEntry:
         self.filename = filename
         self.displayname = displayname
 
+
+def _get_greeting_text() -> str:
+    commands_list = [f'{val.displayname}: /{key}' for key, val in COMMAND_MAPPING.items()]
+    commands_text = '\n'.join(commands_list)
+    return f'''
+<b>Случайная сутта</b>
+
+Получить случайную сутту из раздела:
+
+{commands_text}
+
+Инфо: /about_us
+Это сообщение: /help
+'''
+
+
+# Telegram bot token
+TOKEN = os.environ.get('PALI_BOT_TOKEN', default='5151139838:AAF014XgtqS0_OgmzJNP5yEJ-gSWUUFw9mg')
+
+LOG_LEVEL = logging.WARNING
 
 # Maps commands to files in data/ dir
 COMMAND_MAPPING = {
@@ -33,7 +50,7 @@ COMMAND_MAPPING = {
 }
 
 # Info text
-about_text = (
+ABOUT_TEXT = (
     'Этот бот создан для некоммерческого использования, все материалы взяты с сайта theravada.ru.'
     '\n\n'
     'Наша <a href="https://theravada.ru/blessings.htm">община</a> существует на пожертвования,'
@@ -41,4 +58,5 @@ about_text = (
     '\n\n'
     'По вопросам и предложениям пишите @Alexandr_Cherkaev, @Max_Kotebus, @bergentroll')
 
-log_level = logging.WARNING
+
+GREETING_TEXT = _get_greeting_text()

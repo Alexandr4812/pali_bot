@@ -8,9 +8,9 @@ import telebot
 import config
 
 CACHE: Dict[str, str] = {}
-telebot.logger.setLevel(config.log_level)
+telebot.logger.setLevel(config.LOG_LEVEL)
 
-bot = telebot.TeleBot(config.token, parse_mode='HTML')
+bot = telebot.TeleBot(config.TOKEN, parse_mode='HTML')
 
 # Directory of the module
 DIR = os.path.abspath(os.path.dirname(__file__))
@@ -56,20 +56,7 @@ def get_text(command: str) -> str:
 @bot.message_handler(commands=['start', 'help'])
 def main_menu_func(message) -> None:
     # TODO reply_markup=markup
-
-    commands_list = [f'{val.displayname}: /{key}' for key, val in config.COMMAND_MAPPING.items()]
-    commands_text = '\n'.join(commands_list)
-    greeting_text = f'''
-<b>Случайная сутта</b>
-
-Получить случайную сутту из раздела:
-
-{commands_text}
-
-Инфо: /about_us
-'''
-
-    bot.send_message(message.chat.id, greeting_text)
+    bot.send_message(message.chat.id, config.GREETING_TEXT)
 
 
 @bot.message_handler(commands=list(config.COMMAND_MAPPING.keys()))
@@ -90,7 +77,7 @@ def generic_command(message: telebot.types.Message) -> None:
 
 @bot.message_handler(commands=['about_us'])
 def about_us_func(message) -> None:
-    bot.send_message(message.chat.id, config.about_text)
+    bot.send_message(message.chat.id, config.ABOUT_TEXT)
 
 
 if __name__ == '__main__':
