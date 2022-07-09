@@ -1,31 +1,8 @@
 import logging
 import os
 
-from typing import List
-
-
-class SectionEntry:
-    def __init__(self, filename: str, displayname: str, tags: List[str] = None):
-        if tags is None:
-            tags = []
-
-        self.filename = filename
-        self.displayname = displayname
-
-
-def _get_greeting_text() -> str:
-    commands_list = [f'{val.displayname}: /{key}' for key, val in COMMAND_MAPPING.items()]
-    commands_text = '\n'.join(commands_list)
-    return f'''
-<b>Случайная сутта</b>
-
-Получить случайную сутту из раздела:
-
-{commands_text}
-
-Инфо: /about_us
-Это сообщение: /help
-'''
+from utils import SectionEntry
+from utils import get_greeting_text
 
 
 # Telegram bot token
@@ -58,5 +35,15 @@ ABOUT_TEXT = (
     '\n\n'
     'По вопросам и предложениям пишите @Alexandr_Cherkaev, @Max_Kotebus, @bergentroll')
 
+_GREETING_TEXT_TEMPLATE = '''
+<b>Случайная сутта</b>
 
-GREETING_TEXT = _get_greeting_text()
+Получить случайную сутту из раздела:
+
+{command_text}
+
+Инфо: /about_us
+Это сообщение: /help
+'''
+
+GREETING_TEXT = get_greeting_text(_GREETING_TEXT_TEMPLATE, COMMAND_MAPPING)
