@@ -19,14 +19,11 @@ python3 pali_bot.py
 
 ## TODO
 - Serialize data to JSON or YAML
-- ~~Make the bot resident~~
 - Implement setup.py
-- ~~Get token from environment variable~~
-- Move `*.txt` to `data/`
-- Bot menu
-- Make class
-- ~~Suggestion: delete an `.idea/` dir~~
-- ~~Suggestion: delete `##########` comments~~
-- Suggestion: apply some permissive license
-- ~~Suggestion: consistent name: either `canon_bot` or `pali_bot`.~~
-- ~~Suggestion: consistent snake case: Pali_Bot.py -> pali_bot.py~~
+- ~~Move `*.txt` to `data/`~~
+- Buttons menu
+- ~~Suggestion: apply some permissive license~~
+- Testing: run commands, check no exceptions
+- Suggestion: rename commands like `/any`, `/theragatha`...
+- Suggestion: automatic tags to easily search messages
+- Suggestion: bold title of a sutta
