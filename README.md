@@ -4,7 +4,7 @@
 ```bash
 python3 -m venv env
 . env/bin/activate
-pip3 install -r requirements.txt
+pip3 install -e .
 ```
 
 ## Usage
@@ -14,15 +14,14 @@ pip3 install -r requirements.txt
 
 Run with:
 ```bash
-python3 pali_bot.py
+. env/bin/activate
+pali_bot
 ```
 
 ## TODO
 - Serialize data to JSON or YAML
-- Implement setup.py
-- ~~Move `*.txt` to `data/`~~
+- ~~Implement setup.py~~
 - Buttons menu
-- ~~Suggestion: apply some permissive license~~
 - Testing: run commands, check no exceptions
 - Suggestion: rename commands like `/any`, `/theragatha`...
 - Suggestion: automatic tags to easily search messages

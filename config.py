@@ -6,7 +6,9 @@ from utils import get_greeting_text
 
 
 # Telegram bot token
-TOKEN = os.environ.get('PALI_BOT_TOKEN', default='5151139838:AAF014XgtqS0_OgmzJNP5yEJ-gSWUUFw9mg')
+TOKEN = os.environ.get(
+    'PALI_BOT_TOKEN',
+    default='5151139838:AAF014XgtqS0_OgmzJNP5yEJ-gSWUUFw9mg')  # FIXME Tokens in repo is a bad practice
 
 LOG_LEVEL = logging.WARNING
 

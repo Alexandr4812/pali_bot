@@ -7,7 +7,6 @@ from typing import List
 import telebot
 import config
 
-CACHE: Dict[str, str] = {}
 telebot.logger.setLevel(config.LOG_LEVEL)
 
 bot = telebot.TeleBot(config.TOKEN, parse_mode='HTML')
@@ -80,5 +79,9 @@ def about_us_func(message) -> None:
     bot.send_message(message.chat.id, config.ABOUT_TEXT)
 
 
-if __name__ == '__main__':
+def main() -> None:
     bot.polling(none_stop=True)
+
+
+if __name__ == '__main__':
+    run()
