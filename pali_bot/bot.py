@@ -8,9 +8,11 @@ from telegram.ext import Updater
 
 import config
 
+from pali_bot.sutta_provider import SuttaProvider
+
 
 class Bot:
-    def __init__(self, config_ = None):  # TODO Pass config
+    def __init__(self, sutta_provider: SuttaProvider, config_ = None):  # TODO Pass config
         DIR = os.path.abspath(os.path.dirname(__file__))
 
         self._config = config
