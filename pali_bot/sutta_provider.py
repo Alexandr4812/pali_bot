@@ -31,10 +31,11 @@ class SuttaProvider:
 
         self._data['__all__'] = all_
 
-    def get_sections(self) -> List[str]:
+    @property
+    def sections(self) -> List[str]:
         return list(self._data)
 
-    def get_random_sutta(section: Optional[str] = None) -> Dict[str, Any]:
+    def get_random_sutta(self, section: Optional[str] = None) -> Dict[str, Any]:
         if section is None:
             section = '__all__'
 
