@@ -55,6 +55,7 @@ class Bot:
         self._updater.idle()
 
     def _start_handler(self, update: Update, _: CallbackContext) -> None:
+        # TODO Build message
         update.message.reply_html(config.GREETING_TEXT)
 
     def _about_handler(self, update: Update, _: CallbackContext) -> None:

@@ -19,10 +19,6 @@ pali_bot
 ```
 
 ## TODO
-- Serialize data to JSON or YAML
-- ~~Implement setup.py~~
-- Buttons menu
-- Testing: run commands, check no exceptions
 - Suggestion: rename commands like `/any`, `/theragatha`...
 - Suggestion: automatic tags to easily search messages
-- Suggestion: bold title of a sutta
+
