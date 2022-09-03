@@ -1,35 +1,15 @@
 import os
 
-from telegram import ParseMode
 from telegram import Update
 from telegram.ext import CallbackContext
 from telegram.ext import CommandHandler
 from telegram.ext import Updater
-from telegram.constants import MAX_MESSAGE_LENGTH
 
 import config
 
 from pali_bot.sutta_provider import SuttaProvider
-
-
-def html_format_sutta(sutta: SuttaProvider.Sutta) -> str:
-    footnotes_entries = [f'<i>{ind}</i> — {text}' for ind, text in sutta['footnotes'].items()]
-    footnotes = ''
-    if len(footnotes_entries) > 0:
-        footnotes += '___\n'
-        footnotes += '\n'.join(footnotes_entries)
-        footnotes += '\n\n'
-
-    result = f'''
-<b>{sutta['title']}</b>
-<b><a href="{sutta['url']}">{sutta['index']}</a></b>
-
-{sutta['text']}
-
-{footnotes}<i>{sutta['credits']}</i>
-'''
-
-    return result
+from pali_bot.utils import html_format_sutta
+from pali_bot.utils import split_long_message
 
 
 class RandomSuttaHandler:
@@ -41,21 +21,15 @@ class RandomSuttaHandler:
         sutta = self._sutta_provider.get_random_sutta(self._section)
 
         html_text = html_format_sutta(sutta)
-        # TODO
-        #if len(print_text) >= limit:
-        #    index = delimiter(print_text, limit)
-        #    for x in range(0, len(index) - 1):
-        #        bot.send_message(message.chat.id, print_text[index[x]:index[x + 1]])
-        #    update.message.reply_html(print_text[index[-1]:])
-        #else:
-        print(html_text)
-        update.message.reply_html(html_text, disable_web_page_preview=True)
+
+        html_text += f'\n\u21E5 /{self._section}_sutta'
+
+        for msg in split_long_message(html_text):
+            update.message.reply_html(msg, disable_web_page_preview=True)
 
 
 class Bot:
     def __init__(self, sutta_provider: SuttaProvider, config_=None):  # TODO Pass config
-        DIR = os.path.abspath(os.path.dirname(__file__))
-
         self._config = config
         self._sutta_provider = sutta_provider
         self._updater = Updater(token=config.TOKEN)
@@ -80,8 +54,8 @@ class Bot:
         self._updater.start_polling()
         self._updater.idle()
 
-    def _start_handler(self, update: Update, context: CallbackContext) -> None:
+    def _start_handler(self, update: Update, _: CallbackContext) -> None:
         update.message.reply_html(config.GREETING_TEXT)
 
-    def _about_handler(self, update: Update, context: CallbackContext) -> None:
+    def _about_handler(self, update: Update, _: CallbackContext) -> None:
         update.message.reply_html(self._config.ABOUT_TEXT)
