@@ -10,6 +10,8 @@ import yaml
 
 
 class SuttaProvider:
+    Sutta = Dict[str, Any]
+
     def __init__(self, data_dir: Optional[str] = None):
         if data_dir is None:
             data_dir = './data/'
@@ -35,7 +37,7 @@ class SuttaProvider:
     def sections(self) -> List[str]:
         return list(self._data)
 
-    def get_random_sutta(self, section: Optional[str] = None) -> Dict[str, Any]:
+    def get_random_sutta(self, section: Optional[str] = None) -> Sutta:
         if section is None:
             section = '__all__'
 
