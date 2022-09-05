@@ -14,8 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import random
 import importlib
+import logging
+import random
 
 from pathlib import Path
 from typing import Any
@@ -39,6 +40,8 @@ class SuttaProvider:
         if data_dir is None:
             data_dir = './data/'
 
+        self._logger = logging.getLogger(f'{__name__}.{__class__.__name__}')
+
         self._data: Dict[str, List[Dict]] = {}
 
         files = Path(data_dir).glob('*.yaml')
@@ -46,6 +49,7 @@ class SuttaProvider:
         schema_txt = importlib.resources.open_text(pali_bot, 'data_schema.yaml')
         schema = yaml.safe_load(schema_txt)
 
+        self._logger.info('Begin loading data')
         for file_path in files:
             with open(file_path, 'r', encoding='UTF-8') as file:
                 content = yaml.safe_load(file)
@@ -55,6 +59,9 @@ class SuttaProvider:
                     raise self.InvalidData(f'Misformed data in {file_path}: {error}') from None
             section = Path(file_path).stem
             self._data[section] = content
+            self._logger.info(f'{file_path} file is loaded')
+
+        self._logger.info('Data is loaded')
 
         all_ = []
         for val in self._data.values():
