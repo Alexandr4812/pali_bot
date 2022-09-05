@@ -1,5 +1,3 @@
-import os
-
 from telegram import Update
 from telegram.ext import CallbackContext
 from telegram.ext import CommandHandler
@@ -20,9 +18,11 @@ class RandomSuttaHandler:
     def __call__(self, update: Update, context: CallbackContext) -> None:
         sutta = self._sutta_provider.get_random_sutta(self._section)
 
-        html_text = html_format_sutta(sutta)
+        html_text = ''
+        html_text += html_format_sutta(sutta)
 
         html_text += f'\n\u21E5 /{self._section}_sutta'
+        html_text += f'\n\n#{self._section} #sutta_bot'
 
         for msg in split_long_message(html_text):
             update.message.reply_html(msg, disable_web_page_preview=True)

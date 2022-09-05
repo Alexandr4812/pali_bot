@@ -42,5 +42,3 @@ def split_long_message(text: str) -> List[str]:
     result.append(buf.rstrip())
 
     return result
-
-

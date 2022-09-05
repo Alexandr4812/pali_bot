@@ -1,4 +1,4 @@
-# Pali suttas Telegarm bot
+# Tipitaka suttas Telegarm bot
 
 ## Installation
 ```bash
@@ -19,6 +19,4 @@ pali_bot
 ```
 
 ## TODO
-- Suggestion: rename commands like `/any`, `/theragatha`...
-- Suggestion: automatic tags to easily search messages
-
+- Suggestion: `/*_sutta N` command to get n-th sutta from a section
