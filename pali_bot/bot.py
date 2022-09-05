@@ -39,7 +39,6 @@ class Bot:
             CommandHandler(
                 command=['start', 'help'],
                 callback=self._start_handler))
-        # TODO __all__
         for section in sutta_provider.sections:
             dispatcher.add_handler(
                 CommandHandler(
@@ -50,13 +49,28 @@ class Bot:
                 command='about',
                 callback=self._about_handler))
 
+        self._help_message_html = self._make_html_help()
+
+    def _make_html_help(self) -> str:
+        command_list = [f'/{section}_sutta' for section in self._sutta_provider.sections]
+        command_text = '\n'.join(command_list)
+
+        return (
+            '<b>Сутты палийского канона</b>\n'
+            '\n'
+            'Получить случайную сутту из раздела:\n'
+            '\n'
+            f'{command_text}\n'
+            '\n'
+            'О боте: /about\n'
+            'Это сообщение: /help')
+
     def run(self) -> None:
         self._updater.start_polling()
         self._updater.idle()
 
     def _start_handler(self, update: Update, _: CallbackContext) -> None:
-        # TODO Build message
-        update.message.reply_html(config.GREETING_TEXT)
+        update.message.reply_html(self._help_message_html)
 
     def _about_handler(self, update: Update, _: CallbackContext) -> None:
         update.message.reply_html(self._config.ABOUT_TEXT)

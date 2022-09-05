@@ -1,4 +1,4 @@
-# Tipitaka suttas Telegarm bot
+# Pali canon telegarm bot
 
 ## Installation
 ```bash
@@ -17,6 +17,9 @@ Run with:
 . env/bin/activate
 pali_bot
 ```
+
+Data files had been created with
+[scrapper](https://gitlab.com/bergentroll/theravada-ru-sutta-scrapper).
 
 ## TODO
 - Suggestion: `/*_sutta N` command to get n-th sutta from a section

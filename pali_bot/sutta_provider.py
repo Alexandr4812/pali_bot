@@ -31,7 +31,7 @@ class SuttaProvider:
         for key, val in self._data.items():
             all_.extend(val)
 
-        self._data['__all__'] = all_
+        self._data['any'] = all_
 
     @property
     def sections(self) -> List[str]:
@@ -39,7 +39,7 @@ class SuttaProvider:
 
     def get_random_sutta(self, section: Optional[str] = None) -> Sutta:
         if section is None:
-            section = '__all__'
+            section = 'any'
 
         suttas = self._data[section]
         index = random.randint(0, len(suttas) - 1)
