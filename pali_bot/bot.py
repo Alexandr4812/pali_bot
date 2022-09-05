@@ -19,8 +19,6 @@ from telegram.ext import CallbackContext
 from telegram.ext import CommandHandler
 from telegram.ext import Updater
 
-import config
-
 from pali_bot.sutta_provider import SuttaProvider
 from pali_bot.utils import html_format_sutta
 from pali_bot.utils import split_long_message
@@ -45,10 +43,10 @@ class RandomSuttaHandler:
 
 
 class Bot:
-    def __init__(self, sutta_provider: SuttaProvider, config_=None):  # TODO Pass config
-        self._config = config
+    def __init__(self, sutta_provider: SuttaProvider, token: str, about_text: str):
         self._sutta_provider = sutta_provider
-        self._updater = Updater(token=config.TOKEN)
+        self._about_text_html = about_text
+        self._updater = Updater(token=token)
         dispatcher = self._updater.dispatcher
 
         dispatcher.add_handler(
@@ -87,7 +85,7 @@ class Bot:
         self._updater.idle()
 
     def _start_handler(self, update: Update, _: CallbackContext) -> None:
-        update.message.reply_html(self._help_message_html)
+        update.message.reply_html(self._help_message_html, disable_web_page_preview=True)
 
     def _about_handler(self, update: Update, _: CallbackContext) -> None:
-        update.message.reply_html(self._config.ABOUT_TEXT)
+        update.message.reply_html(self._about_text_html, disable_web_page_preview=True)
