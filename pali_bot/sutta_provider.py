@@ -1,4 +1,21 @@
+#! /usr/bin/env python3
+
+# Copyright 2022 Alexandr Cherkaev, Anton Karmanov <a.karmanov@inventati.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import random
+import importlib
 
 from pathlib import Path
 from typing import Any
@@ -6,10 +23,16 @@ from typing import Dict
 from typing import List
 from typing import Optional
 
+import jsonschema
 import yaml
+
+import pali_bot
 
 
 class SuttaProvider:
+    class InvalidData(RuntimeError):
+        ...
+
     Sutta = Dict[str, Any]
 
     def __init__(self, data_dir: Optional[str] = None):
@@ -20,15 +43,21 @@ class SuttaProvider:
 
         files = Path(data_dir).glob('*.yaml')
 
-        # TODO Validate with JSONSchema
+        schema_txt = importlib.resources.open_text(pali_bot, 'data_schema.yaml')
+        schema = yaml.safe_load(schema_txt)
+
         for file_path in files:
             with open(file_path, 'r', encoding='UTF-8') as file:
                 content = yaml.safe_load(file)
+                try:
+                    jsonschema.validate(content, schema)
+                except jsonschema.ValidationError as error:
+                    raise self.InvalidData(f'Misformed data in {file_path}: {error}') from None
             section = Path(file_path).stem
             self._data[section] = content
 
         all_ = []
-        for key, val in self._data.items():
+        for val in self._data.values():
             all_.extend(val)
 
         self._data['any'] = all_

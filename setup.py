@@ -10,8 +10,9 @@ setup(
     license='Apache',
     description='Telegram bot to read suttas',
     install_requires=(
-        'python-telegram-bot~=13.13',
         'PyYAML~=6.0',
+        'jsonschema~=4.0',
+        'python-telegram-bot~=13.0',
     ),
     include_package_data=True,
     entry_points={

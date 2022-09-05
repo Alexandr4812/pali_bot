@@ -1,4 +1,12 @@
-# Pali canon telegarm bot
+# Pāli canon Telegarm bot
+
+## About
+Bot created to read some short suttas with Telegram. For now there are charged
+few canon sections in Russian. There are also some hardcoded messages for now.
+
+YAML formatted data files had been created with
+[scrapper](https://gitlab.com/bergentroll/theravada-ru-sutta-scrapper).
+
 
 ## Installation
 ```bash
@@ -17,9 +25,6 @@ Run with:
 . env/bin/activate
 pali_bot
 ```
-
-Data files had been created with
-[scrapper](https://gitlab.com/bergentroll/theravada-ru-sutta-scrapper).
 
 ## TODO
 - Suggestion: `/*_sutta N` command to get n-th sutta from a section
