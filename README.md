@@ -18,13 +18,16 @@ pip3 install -e .
 ## Usage
 - Create a bot with [BotFather](https://t.me/BotFather)
 - Get the bot token
-- Set the token in the [config.py](./config.py)
+- Set the token in the [config.yaml](./config.yaml) or with the `PALI_BOT_TOKEN`
+    environment variable
 
 Run with:
 ```bash
 . env/bin/activate
 pali_bot
 ```
+
+Alternative config location may be passed with `--config` flag.
 
 ## TODO
 - Suggestion: `/*_sutta N` command to get n-th sutta from a section
