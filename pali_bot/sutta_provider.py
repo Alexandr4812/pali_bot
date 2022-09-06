@@ -34,6 +34,7 @@ class SuttaProvider:
     class InvalidData(RuntimeError):
         ...
 
+    # TODO Data-only type
     Sutta = Dict[str, Any]
 
     def __init__(self, data_dir: Optional[str] = None):
@@ -73,11 +74,16 @@ class SuttaProvider:
     def sections(self) -> List[str]:
         return list(self._data)
 
-    def get_random_sutta(self, section: Optional[str] = None) -> Sutta:
+    def get_section_length(self, section: Optional[str]) -> int:
         if section is None:
             section = 'any'
+        return len(self._data[section])
 
-        suttas = self._data[section]
-        index = random.randint(0, len(suttas) - 1)
+    def get_sutta(self, section: Optional[str], number: int) -> Sutta:
+        if section is None:
+            section = 'any'
+        return self._data[section][number]
 
-        return suttas[index]
+    def get_random_sutta(self, section: Optional[str] = None) -> Sutta:
+        index = random.randint(0, self.get_section_length(section) - 1)
+        return self.get_sutta(section=section, number=index)

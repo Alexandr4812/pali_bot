@@ -39,7 +39,7 @@ def main() -> None:
     config = yaml.safe_load(args.config)
 
     logging.basicConfig(level=config.get('log_level'))
-    sutta_provider = SuttaProvider(data_dir='./data/')
+    sutta_provider = SuttaProvider(data_dir='./data/')  # FIXME Make abs
 
     command_list = [f'/{section}_sutta' for section in sutta_provider.sections]
     command_text = '\n'.join(command_list)

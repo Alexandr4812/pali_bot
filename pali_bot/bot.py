@@ -30,7 +30,24 @@ class RandomSuttaHandler:
         self._section = section
 
     def __call__(self, update: Update, context: CallbackContext) -> None:
-        sutta = self._sutta_provider.get_random_sutta(self._section)
+        num = None
+
+        assert isinstance(context.args, list)
+        if len(context.args) > 0:
+            try:
+                num = int(context.args[0], base=10)
+            except (ValueError, TypeError):
+                update.message.reply_html('<i>Command arg expected to be a number</i>')
+                return
+            sec_len = self._sutta_provider.get_section_length(self._section)
+            if num > sec_len or num < 1:
+                update.message.reply_html(
+                    f'<i>{self._section} section contains only {sec_len} texts, '
+                    f'arg should be in [1, {sec_len}]</i>')
+                return
+            sutta = self._sutta_provider.get_sutta(self._section, num - 1)
+        else:
+            sutta = self._sutta_provider.get_random_sutta(self._section)
 
         html_text = ''
         html_text += html_format_sutta(sutta)
