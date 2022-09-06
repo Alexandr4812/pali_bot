@@ -14,18 +14,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 import logging
-
-import config
+import os
 
 from pali_bot.bot import Bot
 from pali_bot.sutta_provider import SuttaProvider
 
+import yaml
+
+def get_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description='Pali bot')
+    parser.add_argument(
+        '--config',
+        required=False,
+        default='config.yaml',
+        type=argparse.FileType('r'),
+        help='point to overriding config file', )
+    return parser.parse_args()
+
 
 def main() -> None:
-    logging.basicConfig(level=config.LOG_LEVEL)
-    sutta_provider = SuttaProvider(data_dir='./data/')  # TODO config
-    bot = Bot(sutta_provider=sutta_provider, token=config.TOKEN, about_text=config.ABOUT_TEXT)
+    args = get_args()
+    config = yaml.safe_load(args.config)
+
+    logging.basicConfig(level=config.get('log_level'))
+    sutta_provider = SuttaProvider(data_dir='./data/')
+    bot = Bot(
+        sutta_provider=sutta_provider,
+        token=config.get('token') or os.environ.get('PALI_BOT_TOKEN'),
+        about_text=config.get('about_message', '<i>NOT SPECIFIED</i>'))
     bot.run()
 
 

@@ -69,7 +69,6 @@ class Bot:
         command_list = [f'/{section}_sutta' for section in self._sutta_provider.sections]
         command_text = '\n'.join(command_list)
 
-        # TODO Back to config
         return (
             '<b>Сутты палийского канона</b>\n'
             '\n'
