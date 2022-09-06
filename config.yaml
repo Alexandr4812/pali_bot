@@ -7,6 +7,16 @@ log_level: INFO
 # Bot token may be specified here or with PALI_BOT TOKEN environment variable
 token: null
 
+# Message for help command may contain {command_text} handle for list of # commands
+help_message: |
+    <b>Сутты палийского канона</b>
+
+    Получить случайную сутту из раздела:
+    {command_text}
+
+    О боте: /about
+    Это сообщение: /help
+
 about_message: >
     Этот бот создан для некоммерческого использования, материалы взяты с
     сайта <a href='https://theravada.ru'>theravada.ru</a>.

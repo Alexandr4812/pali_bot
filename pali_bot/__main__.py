@@ -40,10 +40,16 @@ def main() -> None:
 
     logging.basicConfig(level=config.get('log_level'))
     sutta_provider = SuttaProvider(data_dir='./data/')
+
+    command_list = [f'/{section}_sutta' for section in sutta_provider.sections]
+    command_text = '\n'.join(command_list)
+    help_text = config.get('help_message', '<i>NOT SPECIFIED</i>').format(command_text=command_text)
+
     bot = Bot(
         sutta_provider=sutta_provider,
         token=config.get('token') or os.environ.get('PALI_BOT_TOKEN'),
-        about_text=config.get('about_message', '<i>NOT SPECIFIED</i>'))
+        about_text=config.get('about_message', '<i>NOT SPECIFIED</i>'),
+        help_text=help_text)
     bot.run()
 
 

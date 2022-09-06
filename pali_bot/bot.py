@@ -43,10 +43,11 @@ class RandomSuttaHandler:
 
 
 class Bot:
-    def __init__(self, sutta_provider: SuttaProvider, token: str, about_text: str):
+    def __init__(self, sutta_provider: SuttaProvider, token: str, about_text='', help_text=''):
         self._sutta_provider = sutta_provider
-        self._about_text_html = about_text
         self._updater = Updater(token=token)
+        self._about_text_html = about_text
+        self._help_text_html = help_text
         dispatcher = self._updater.dispatcher
 
         dispatcher.add_handler(
@@ -63,28 +64,12 @@ class Bot:
                 command='about',
                 callback=self._about_handler))
 
-        self._help_message_html = self._make_html_help()
-
-    def _make_html_help(self) -> str:
-        command_list = [f'/{section}_sutta' for section in self._sutta_provider.sections]
-        command_text = '\n'.join(command_list)
-
-        return (
-            '<b>Сутты палийского канона</b>\n'
-            '\n'
-            'Получить случайную сутту из раздела:\n'
-            '\n'
-            f'{command_text}\n'
-            '\n'
-            'О боте: /about\n'
-            'Это сообщение: /help')
-
     def run(self) -> None:
         self._updater.start_polling()
         self._updater.idle()
 
     def _start_handler(self, update: Update, _: CallbackContext) -> None:
-        update.message.reply_html(self._help_message_html, disable_web_page_preview=True)
+        update.message.reply_html(self._help_text_html, disable_web_page_preview=True)
 
     def _about_handler(self, update: Update, _: CallbackContext) -> None:
         update.message.reply_html(self._about_text_html, disable_web_page_preview=True)

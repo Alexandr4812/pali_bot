@@ -2,7 +2,7 @@
 
 ## About
 Bot created to read some short suttas with Telegram. For now there are charged
-few canon sections in Russian. There are also some hardcoded messages for now.
+few canon sections in Russian.
 
 YAML formatted data files had been created with
 [scrapper](https://gitlab.com/bergentroll/theravada-ru-sutta-scrapper).
