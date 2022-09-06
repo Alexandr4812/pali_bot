@@ -23,8 +23,10 @@ from pali_bot.sutta_provider import SuttaProvider
 
 
 def html_format_sutta(sutta: Sutta) -> str:
-    # Tags must me closed at the same line where have been open because of
-    # following spliting
+    """ Make formatted text
+
+    Tags must be closed at the same line where have been opened because of following spliting.
+    """
     footnotes_entries = [f'<i>{ind}</i> — {text}' for ind, text in sutta['footnotes'].items()]
     footnotes = ''
     if len(footnotes_entries) > 0:
@@ -45,6 +47,10 @@ def html_format_sutta(sutta: Sutta) -> str:
 
 
 def split_long_message(text: str) -> List[str]:
+    """ Split long texts to fit Telegarm limitation
+
+    Text will be splitted by lines and returned as a list of chunks.
+    """
     buf = ''
     result = []
     for line in text.splitlines():

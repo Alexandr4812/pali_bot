@@ -78,18 +78,40 @@ class SuttaProvider:
 
     @property
     def sections(self) -> List[str]:
+        """ Get list of existing section including special "any" section
+        """
         return list(self._data)
 
     def get_section_length(self, section: Optional[str]) -> int:
+        """ Get length of the named section
+
+        :param section: "any" if None
+        :return: int
+        :raises KeyError: if named section is not exists
+        """
         if section is None:
             section = 'any'
         return len(self._data[section])
 
     def get_sutta(self, section: Optional[str], number: int) -> Sutta:
+        """ Get sutta from named section by index
+
+        :param section: "any" if None
+        :param number: number of a text in the section starting from 1
+        :return: Sutta
+        :raises KeyError: if named section is not exists
+        :raises IndexError: if number is out of range
+        """
         if section is None:
             section = 'any'
-        return self._data[section][number]
+        return self._data[section][number - 1]
 
     def get_random_sutta(self, section: Optional[str] = None) -> Sutta:
+        """ Get random sutta from named section
+
+        :param section: name of section, "any" if None
+        :return: Sutta
+        :raises KeyError: if named section is not exists
+        """
         index = random.randint(0, self.get_section_length(section) - 1)
         return self.get_sutta(section=section, number=index)

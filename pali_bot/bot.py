@@ -24,7 +24,9 @@ from pali_bot.utils import html_format_sutta
 from pali_bot.utils import split_long_message
 
 
-class RandomSuttaHandler:
+class GetSuttaHandler:
+    """ Handle getting sutta commands
+    """
     def __init__(self, section: str, sutta_provider: SuttaProvider):
         self._sutta_provider = sutta_provider
         self._section = section
@@ -33,6 +35,8 @@ class RandomSuttaHandler:
         num = None
 
         assert isinstance(context.args, list)
+        assert update is not None
+
         if len(context.args) > 0:
             try:
                 num = int(context.args[0], base=10)
@@ -45,7 +49,7 @@ class RandomSuttaHandler:
                     f'<i>{self._section} section contains only {sec_len} texts, '
                     f'arg should be in [1, {sec_len}]</i>')
                 return
-            sutta = self._sutta_provider.get_sutta(self._section, num - 1)
+            sutta = self._sutta_provider.get_sutta(self._section, num)
         else:
             sutta = self._sutta_provider.get_random_sutta(self._section)
 
@@ -60,6 +64,8 @@ class RandomSuttaHandler:
 
 
 class Bot:
+    """ Handle commands from Telegram
+    """
     def __init__(self, sutta_provider: SuttaProvider, token: str, about_text='', help_text=''):
         self._sutta_provider = sutta_provider
         self._updater = Updater(token=token)
@@ -75,13 +81,15 @@ class Bot:
             dispatcher.add_handler(
                 CommandHandler(
                     command=f'{section}_sutta',
-                    callback=RandomSuttaHandler(section, sutta_provider)))
+                    callback=GetSuttaHandler(section, sutta_provider)))
         dispatcher.add_handler(
             CommandHandler(
                 command='about',
                 callback=self._about_handler))
 
     def run(self) -> None:
+        """ Run polling
+        """
         self._updater.start_polling()
         self._updater.idle()
 
