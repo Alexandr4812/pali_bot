@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Any
 from typing import Dict
 from typing import List
+from typing import TypedDict
 from typing import Optional
 
 import jsonschema
@@ -30,12 +31,17 @@ import yaml
 import pali_bot
 
 
+class Sutta(TypedDict):
+    title: str
+    index: str
+    text: str
+    url: str
+    footnotes: Dict[int, str]
+
+
 class SuttaProvider:
     class InvalidData(RuntimeError):
         ...
-
-    # TODO Data-only type
-    Sutta = Dict[str, Any]
 
     def __init__(self, data_dir: Optional[str] = None):
         if data_dir is None:
@@ -43,7 +49,7 @@ class SuttaProvider:
 
         self._logger = logging.getLogger(f'{__name__}.{__class__.__name__}')
 
-        self._data: Dict[str, List[Dict]] = {}
+        self._data: Dict[str, List[Sutta]] = {}
 
         files = Path(data_dir).glob('*.yaml')
 

@@ -18,10 +18,11 @@ from typing import List
 
 from telegram.constants import MAX_MESSAGE_LENGTH
 
+from pali_bot.sutta_provider import Sutta
 from pali_bot.sutta_provider import SuttaProvider
 
 
-def html_format_sutta(sutta: SuttaProvider.Sutta) -> str:
+def html_format_sutta(sutta: Sutta) -> str:
     # Tags must me closed at the same line where have been open because of
     # following spliting
     footnotes_entries = [f'<i>{ind}</i> — {text}' for ind, text in sutta['footnotes'].items()]
