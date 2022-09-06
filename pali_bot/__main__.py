@@ -18,6 +18,8 @@ import argparse
 import logging
 import os
 
+from pathlib import Path
+
 from pali_bot.bot import Bot
 from pali_bot.sutta_provider import SuttaProvider
 
@@ -37,9 +39,11 @@ def get_args() -> argparse.Namespace:
 def main() -> None:
     args = get_args()
     config = yaml.safe_load(args.config)
+    base_dir = Path(__file__).parents[1]
+    data_dir = config.get('data_directory') or base_dir / 'data'
 
     logging.basicConfig(level=config.get('log_level'))
-    sutta_provider = SuttaProvider(data_dir='./data/')  # FIXME Make abs
+    sutta_provider = SuttaProvider(data_dir=data_dir)
 
     command_list = [f'/{section}_sutta' for section in sutta_provider.sections]
     command_text = '\n'.join(command_list)

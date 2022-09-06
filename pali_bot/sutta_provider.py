@@ -19,7 +19,6 @@ import logging
 import random
 
 from pathlib import Path
-from typing import Any
 from typing import Dict
 from typing import List
 from typing import TypedDict
@@ -43,10 +42,7 @@ class SuttaProvider:
     class InvalidData(RuntimeError):
         ...
 
-    def __init__(self, data_dir: Optional[str] = None):
-        if data_dir is None:
-            data_dir = './data/'
-
+    def __init__(self, data_dir: str):
         self._logger = logging.getLogger(f'{__name__}.{__class__.__name__}')
 
         self._data: Dict[str, List[Sutta]] = {}

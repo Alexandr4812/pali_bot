@@ -7,6 +7,9 @@ log_level: INFO
 # Bot token may be specified here or with PALI_BOT TOKEN environment variable
 token: null
 
+# Alternative path to YAML data files directory may be passed
+data_directory: null
+
 # Message for help command may contain {command_text} handle for list of # commands
 help_message: |
     <b>Сутты палийского канона</b>
