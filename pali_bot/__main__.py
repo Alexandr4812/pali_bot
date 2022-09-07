@@ -45,9 +45,14 @@ def main() -> None:
     logging.basicConfig(level=config.get('log_level'))
     sutta_provider = SuttaProvider(data_dir=data_dir)
 
-    command_list = [f'/{section}_sutta' for section in sutta_provider.sections]
-    command_text = '\n'.join(command_list)
-    help_text = config.get('help_message', '<i>NOT SPECIFIED</i>').format(command_text=command_text)
+    random_command_list = [f'/{section}_sutta' for section in sutta_provider.sections]
+    random_command_text = '\n'.join(random_command_list)
+    index_command_list = [f'/{section}_sutta_1' for section in sutta_provider.sections]
+    index_command_text = '\n'.join(index_command_list)
+    help_text_template = config.get('help_message', '<i>NOT SPECIFIED</i>')
+    help_text = help_text_template.format(
+        random_command_text=random_command_text,
+        index_command_text=index_command_text)
 
     bot = Bot(
         sutta_provider=sutta_provider,
