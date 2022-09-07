@@ -98,6 +98,8 @@ class SuttaProvider:
         :raises KeyError: if named section is not exists
         :raises IndexError: if number is out of range
         """
+        if number < 1:
+            raise IndexError('Only positive inices accepted beginning from 1')
         if section is None:
             section = 'any'
         return self._data[section][number - 1]

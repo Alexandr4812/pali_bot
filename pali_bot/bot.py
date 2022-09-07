@@ -80,19 +80,22 @@ class Bot:
         number = int(match.groups()[1])
 
         try:
-            sutta = self._sutta_provider.get_sutta(section, number)
+            sec_len = self._sutta_provider.get_section_length(section)
         except KeyError:
             update.message.reply_html(f'<i>Unknown section "{section}", see /help</i>')
             return
+
+        try:
+            sutta = self._sutta_provider.get_sutta(section, number)
         except IndexError:
-            sec_len = self._sutta_provider.get_section_length(section)
             update.message.reply_html(
                 f'<i>{section} section contains only {sec_len} texts, '
                 f'a number should be in [1, {sec_len}]</i>')
             return
 
+        next_num = (number + 1) % sec_len
         html_text = html_format_sutta(sutta)
-        html_text += f'\n\u21E5 /{section}_sutta'
+        html_text += f'\n\u21E5 /{section}_sutta_{next_num}'
         html_text += f'\n\n#{section} #sutta_bot'
         for msg in split_long_message(html_text):
             update.message.reply_html(msg, disable_web_page_preview=True)
