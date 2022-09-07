@@ -17,50 +17,13 @@
 from telegram import Update
 from telegram.ext import CallbackContext
 from telegram.ext import CommandHandler
+from telegram.ext import Filters
+from telegram.ext import MessageHandler
 from telegram.ext import Updater
 
 from pali_bot.sutta_provider import SuttaProvider
 from pali_bot.utils import html_format_sutta
 from pali_bot.utils import split_long_message
-
-
-class GetSuttaHandler:
-    """ Handle getting sutta commands
-    """
-    def __init__(self, section: str, sutta_provider: SuttaProvider):
-        self._sutta_provider = sutta_provider
-        self._section = section
-
-    def __call__(self, update: Update, context: CallbackContext) -> None:
-        num = None
-
-        assert isinstance(context.args, list)
-        assert update is not None
-
-        if len(context.args) > 0:
-            try:
-                num = int(context.args[0], base=10)
-            except (ValueError, TypeError):
-                update.message.reply_html('<i>Command arg expected to be a number</i>')
-                return
-            sec_len = self._sutta_provider.get_section_length(self._section)
-            if num > sec_len or num < 1:
-                update.message.reply_html(
-                    f'<i>{self._section} section contains only {sec_len} texts, '
-                    f'arg should be in [1, {sec_len}]</i>')
-                return
-            sutta = self._sutta_provider.get_sutta(self._section, num)
-        else:
-            sutta = self._sutta_provider.get_random_sutta(self._section)
-
-        html_text = ''
-        html_text += html_format_sutta(sutta)
-
-        html_text += f'\n\u21E5 /{self._section}_sutta'
-        html_text += f'\n\n#{self._section} #sutta_bot'
-
-        for msg in split_long_message(html_text):
-            update.message.reply_html(msg, disable_web_page_preview=True)
 
 
 class Bot:
@@ -76,15 +39,26 @@ class Bot:
         dispatcher.add_handler(
             CommandHandler(
                 command=['start', 'help'],
+                filters=(~Filters.update.edited_message),
                 callback=self._start_handler))
-        for section in sutta_provider.sections:
-            dispatcher.add_handler(
-                CommandHandler(
-                    command=f'{section}_sutta',
-                    callback=GetSuttaHandler(section, sutta_provider)))
+        dispatcher.add_handler(
+            MessageHandler(
+                filters=(
+                    ~Filters.update.edited_message &
+                    Filters.command &
+                    Filters.regex('^/(.+)_sutta_(\\d+)$')),
+                callback=self._sutta_handler))
+        dispatcher.add_handler(
+            MessageHandler(
+                filters=(
+                    ~Filters.update.edited_message &
+                    Filters.command &
+                    Filters.regex('^/(.+)_sutta$')),
+                callback=self._random_sutta_handler))
         dispatcher.add_handler(
             CommandHandler(
                 command='about',
+                filters=(~Filters.update.edited_message),
                 callback=self._about_handler))
 
     def run(self) -> None:
@@ -98,3 +72,45 @@ class Bot:
 
     def _about_handler(self, update: Update, _: CallbackContext) -> None:
         update.message.reply_html(self._about_text_html, disable_web_page_preview=True)
+
+    def _sutta_handler(self, update: Update, context: CallbackContext) -> None:
+        assert isinstance(context.matches, list)
+        match = context.matches[0]
+        section = match.groups()[0]
+        number = int(match.groups()[1])
+
+        try:
+            sutta = self._sutta_provider.get_sutta(section, number)
+        except KeyError:
+            update.message.reply_html(f'<i>Unknown section "{section}", see /help</i>')
+            return
+        except IndexError:
+            sec_len = self._sutta_provider.get_section_length(section)
+            update.message.reply_html(
+                f'<i>{section} section contains only {sec_len} texts, '
+                f'a number should be in [1, {sec_len}]</i>')
+            return
+
+        html_text = html_format_sutta(sutta)
+        html_text += f'\n\u21E5 /{section}_sutta'
+        html_text += f'\n\n#{section} #sutta_bot'
+        for msg in split_long_message(html_text):
+            update.message.reply_html(msg, disable_web_page_preview=True)
+
+    def _random_sutta_handler(self, update: Update, context: CallbackContext) -> None:
+        assert isinstance(context.matches, list)
+        match = context.matches[0]
+        section = match.groups()[0]
+
+        try:
+            sutta = self._sutta_provider.get_random_sutta(section)
+        except KeyError:
+            update.message.reply_html(f'<i>Unknown section "{section}", see /help</i>')
+            return
+
+        html_text = html_format_sutta(sutta)
+
+        html_text += f'\n\u21E5 /{section}_sutta'
+        html_text += f'\n\n#{section} #sutta_bot'
+        for msg in split_long_message(html_text):
+            update.message.reply_html(msg, disable_web_page_preview=True)

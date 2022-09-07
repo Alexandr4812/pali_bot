@@ -30,4 +30,4 @@ pali_bot
 Alternative config location may be passed with `--config` flag.
 
 ## TODO
-- Suggestion: `/*_sutta N` command to get n-th sutta from a section
+- "Acess-log"
