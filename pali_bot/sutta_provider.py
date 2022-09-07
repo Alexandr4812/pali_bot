@@ -43,7 +43,7 @@ class SuttaProvider:
         ...
 
     def __init__(self, data_dir: str):
-        self._logger = logging.getLogger(f'{__name__}.{__class__.__name__}')
+        self._logger = logging.getLogger(f'{__name__}.{self.__class__.__name__}')
 
         self._data: Dict[str, List[Sutta]] = {}
 
@@ -62,7 +62,7 @@ class SuttaProvider:
                     raise self.InvalidData(f'Misformed data in {file_path}: {error}') from None
             section = Path(file_path).stem
             self._data[section] = content
-            self._logger.info(f'{file_path} file is loaded')
+            self._logger.info('%s file is loaded', file_path)
 
         self._logger.info('Data is loaded')
 

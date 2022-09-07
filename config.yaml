@@ -2,7 +2,11 @@
 # This file is a part of pali_bot
 # pali_bot default config
 
+# Global logging level
 log_level: INFO
+
+# File path to log commands, null to disable the feature
+access_log: /var/log/pali_bot_access.log
 
 # Bot token may be specified here or with PALI_BOT TOKEN environment variable
 token: null

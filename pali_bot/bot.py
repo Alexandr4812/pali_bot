@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import logging
+
 from telegram import Update
 from telegram.ext import CallbackContext
 from telegram.ext import CommandHandler
@@ -34,8 +36,18 @@ class Bot:
         self._updater = Updater(token=token)
         self._about_text_html = about_text
         self._help_text_html = help_text
+        self._logger = logging.getLogger(f'{__name__}.{self.__class__.__name__}')
+        self._access_logger = logging.getLogger(f'{__name__.split(".")[0]}.ACCESS')
+
         dispatcher = self._updater.dispatcher
 
+        dispatcher.add_handler(
+            MessageHandler(
+                filters=(
+                    ~Filters.update.edited_message &
+                    Filters.regex('/.+')),
+                callback=self._logger_handler),
+            group=1)
         dispatcher.add_handler(
             CommandHandler(
                 command=['start', 'help'],
@@ -45,14 +57,12 @@ class Bot:
             MessageHandler(
                 filters=(
                     ~Filters.update.edited_message &
-                    Filters.command &
                     Filters.regex('^/(.+)_sutta_(\\d+)$')),
                 callback=self._sutta_handler))
         dispatcher.add_handler(
             MessageHandler(
                 filters=(
                     ~Filters.update.edited_message &
-                    Filters.command &
                     Filters.regex('^/(.+)_sutta$')),
                 callback=self._random_sutta_handler))
         dispatcher.add_handler(
@@ -66,6 +76,12 @@ class Bot:
         """
         self._updater.start_polling()
         self._updater.idle()
+
+    def _logger_handler(self, update: Update, context: CallbackContext) -> None:
+        assert isinstance(context.matches, list)
+        match = context.matches[0]
+        assert update.message is not None
+        self._access_logger.info('Command %s in chat %s', match.string, update.message.chat_id)
 
     def _start_handler(self, update: Update, _: CallbackContext) -> None:
         update.message.reply_html(self._help_text_html, disable_web_page_preview=True)

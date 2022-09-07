@@ -19,11 +19,13 @@ import logging
 import os
 
 from pathlib import Path
+from typing import Optional
 
 from pali_bot.bot import Bot
 from pali_bot.sutta_provider import SuttaProvider
 
 import yaml
+
 
 def get_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description='Pali bot')
@@ -36,13 +38,27 @@ def get_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def set_logging(log_level: Optional[str], access_log_file: Optional[str]) -> None:
+    logging.basicConfig(level=log_level)
+    logging.getLogger('apscheduler').setLevel(logging.WARNING)  # A dependency logger
+    access_logger = logging.getLogger(f'{__name__.split(".")[0]}.ACCESS')
+    access_logger.propagate = False
+    if access_log_file:
+        file_formatter = logging.Formatter(fmt='{asctime} {message}', style='{')
+        file_handler = logging.FileHandler(access_log_file)
+        file_handler.setFormatter(file_formatter)
+        access_logger.addHandler(file_handler)
+        access_logger.setLevel(logging.INFO)
+
+
 def main() -> None:
     args = get_args()
     config = yaml.safe_load(args.config)
     base_dir = Path(__file__).parents[1]
     data_dir = config.get('data_directory') or base_dir / 'data'
 
-    logging.basicConfig(level=config.get('log_level'))
+    set_logging(log_level=config.get('log_level'), access_log_file=config.get('access_log'))
+
     sutta_provider = SuttaProvider(data_dir=data_dir)
 
     random_command_list = [f'/{section}_sutta' for section in sutta_provider.sections]

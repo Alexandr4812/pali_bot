@@ -28,6 +28,3 @@ pali_bot
 ```
 
 Alternative config location may be passed with `--config` flag.
-
-## TODO
-- "Acess-log"
