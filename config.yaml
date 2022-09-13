@@ -1,0 +1,40 @@
+---
+# This file is a part of pali_bot
+# pali_bot default config
+
+# Global logging level
+log_level: INFO
+
+# File path to log commands, null to disable the feature
+access_log: /var/log/pali_bot_access.log
+
+# Bot token may be specified here or with PALI_BOT TOKEN environment variable
+token: null
+
+# Alternative path to YAML data files directory may be passed
+data_directory: null
+
+# Message for help command may contain {command_text} handle for list of # commands
+help_message: |
+    <b>Сутты палийского канона</b>
+
+    Получить случайную сутту из раздела:
+    {random_command_text}
+
+    Получить сутту из раздела по порядковому номеру:
+    {index_command_text}
+
+    О боте: /about
+    Это сообщение: /help
+
+about_message: >
+    Этот бот создан для некоммерческого использования, материалы взяты с
+    сайта <a href='https://theravada.ru'>theravada.ru</a>.
+
+
+    Наша община существует на пожертвования, вы можете сделать дану на карту
+    Сбербанка <code>4276 5500 2002 5576</code>.
+
+
+    По вопросам и предложениям пишите @Alexandr_Cherkaev, @Max_Kotebus,
+    @bergentroll.

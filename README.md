@@ -1,29 +1,30 @@
-# Pali suttas Telegarm bot
+# Pāli canon Telegarm bot
+
+## About
+Bot created to read some short suttas with Telegram. For now there are charged
+few canon sections in Russian.
+
+YAML formatted data files had been created with
+[scrapper](https://gitlab.com/bergentroll/theravada-ru-sutta-scrapper).
+
 
 ## Installation
 ```bash
 python3 -m venv env
 . env/bin/activate
-pip3 install -r requirements.txt
+pip3 install -e .
 ```
 
 ## Usage
 - Create a bot with [BotFather](https://t.me/BotFather)
 - Get the bot token
-- Set the token in the [config.py](./config.py)
+- Set the token in the [config.yaml](./config.yaml) or with the `PALI_BOT_TOKEN`
+    environment variable
 
 Run with:
 ```bash
-python3 pali_bot.py
+. env/bin/activate
+pali_bot
 ```
 
-## TODO
-- Serialize data to JSON or YAML
-- Implement setup.py
-- ~~Move `*.txt` to `data/`~~
-- Buttons menu
-- ~~Suggestion: apply some permissive license~~
-- Testing: run commands, check no exceptions
-- Suggestion: rename commands like `/any`, `/theragatha`...
-- Suggestion: automatic tags to easily search messages
-- Suggestion: bold title of a sutta
+Alternative config location may be passed with `--config` flag.

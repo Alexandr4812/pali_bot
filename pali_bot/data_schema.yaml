@@ -1,0 +1,17 @@
+---
+
+# This file is a part of a pali_bot
+# Schema to valdate data files
+
+type: array
+items:
+    type: object
+    properties:
+        footnotes:
+            type: object
+            pattertProperties:
+                '\\d*': { type: string }
+        index: { type: string }
+        text: { type: string }
+        title: { type: string }
+        url: { type: string }
