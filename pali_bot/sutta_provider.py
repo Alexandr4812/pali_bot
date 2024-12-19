@@ -111,5 +111,5 @@ class SuttaProvider:
         :return: Sutta
         :raises KeyError: if named section is not exists
         """
-        index = random.randint(0, self.get_section_length(section) - 1)
+        index = random.randint(1, self.get_section_length(section))
         return self.get_sutta(section=section, number=index)
